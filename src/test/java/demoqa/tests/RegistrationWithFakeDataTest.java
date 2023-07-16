@@ -3,6 +3,9 @@ package demoqa.tests;
 import com.codeborne.selenide.logevents.SelenideLogger;
 import demoqa.pages.RegistrationPage;
 import demoqa.utils.TestsRandomData;
+import io.qameta.allure.Feature;
+import io.qameta.allure.Owner;
+import io.qameta.allure.Story;
 import io.qameta.allure.selenide.AllureSelenide;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Tag;
@@ -17,8 +20,11 @@ public class RegistrationWithFakeDataTest extends TestBase {
     TestsRandomData randomValue = new TestsRandomData();
 
     @Test
+    @Feature("Тесты на ресурсе demoqa")
+    @Story("Заполнение формы регистрации")
     @Tag("remote")
-    @DisplayName("Successful registration")
+    @DisplayName("Успешная регистрация")
+    @Owner("Anastasia Belova")
     public void successfulRegistrationTest() {
 
         String picture = "example.png";
