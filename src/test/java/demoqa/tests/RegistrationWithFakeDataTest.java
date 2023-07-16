@@ -4,8 +4,12 @@ import com.codeborne.selenide.logevents.SelenideLogger;
 import demoqa.pages.RegistrationPage;
 import demoqa.utils.TestsRandomData;
 import io.qameta.allure.selenide.AllureSelenide;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
+
+import static com.codeborne.selenide.Selenide.open;
+import static io.qameta.allure.Allure.step;
 
 public class RegistrationWithFakeDataTest extends TestBase {
 
@@ -14,47 +18,60 @@ public class RegistrationWithFakeDataTest extends TestBase {
 
     @Test
     @Tag("remote")
+    @DisplayName("Successful registration")
     public void successfulRegistrationTest() {
 
         String picture = "example.png";
 
-        registrationPage.openPage()
-                //Input fields
-                .setFirstName(randomValue.firstName)
-                .setLastName(randomValue.lastName)
-                .setUserEmail(randomValue.userEmail)
-                .setUserNumber(randomValue.userNumber)
-                .setCurrentAddress(randomValue.currentAddress)
+        step("Открываем страницу /automation-practice-form", () -> {
+            registrationPage.openPage();
+        });
 
-                //Radio & checkbox
-                .setGender(randomValue.gender)
-                .setHobbies(randomValue.hobbies)
+        step("Заполняем форму рандомными данными", () -> {
+            registrationPage
+                    //Input fields
+                    .setFirstName(randomValue.firstName)
+                    .setLastName(randomValue.lastName)
+                    .setUserEmail(randomValue.userEmail)
+                    .setUserNumber(randomValue.userNumber)
+                    .setCurrentAddress(randomValue.currentAddress)
 
-                // Date & drop-down
-                .setBirthDay(randomValue.birthdayDay, randomValue.birthdayMonth, randomValue.birthdayYear)
-                .setSubjects(randomValue.subject)
-                .setStateAndCity(randomValue.state, randomValue.city)
+                    //Radio & checkbox
+                    .setGender(randomValue.gender)
+                    .setHobbies(randomValue.hobbies)
 
-                //Upload Image field
-                .uploadPicture(picture)
+                    // Date & drop-down
+                    .setBirthDay(randomValue.birthdayDay, randomValue.birthdayMonth, randomValue.birthdayYear)
+                    .setSubjects(randomValue.subject)
+                    .setStateAndCity(randomValue.state, randomValue.city)
 
-                //submit
-                .submitForm()
+                    //Upload Image field
+                    .uploadPicture(picture);
+        });
 
-                // assertions
-                .checkResultFormAppeared()
-                .validateItemsInForm("Student Name", randomValue.firstName + " " + randomValue.lastName)
-                .validateItemsInForm("Student Email", randomValue.userEmail)
-                .validateItemsInForm("Gender", randomValue.gender)
-                .validateItemsInForm("Mobile", randomValue.userNumber)
-                .validateItemsInForm("Date of Birth", randomValue.birthdayDay +
-                                    " " + randomValue.birthdayMonth +
-                                    "," + randomValue.birthdayYear)
-                .validateItemsInForm("Subjects", randomValue.subject)
-                .validateItemsInForm("Hobbies", randomValue.hobbies)
-                .validateItemsInForm("Picture", picture )
-                .validateItemsInForm("Address", randomValue.currentAddress)
-                .validateItemsInForm("State and City", randomValue.state + " " + randomValue.city);
+        step("Подтверждаем ввод", () -> {
+            registrationPage.submitForm();
+        });
+
+        step("Проверяем результат", () -> {
+            registrationPage
+                    .checkResultFormAppeared()
+                    .validateItemsInForm("Student Name", randomValue.firstName + " " + randomValue.lastName)
+                    .validateItemsInForm("Student Email", randomValue.userEmail)
+                    .validateItemsInForm("Gender", randomValue.gender)
+                    .validateItemsInForm("Mobile", randomValue.userNumber)
+                    .validateItemsInForm("Date of Birth", randomValue.birthdayDay +
+                            " " + randomValue.birthdayMonth +
+                            "," + randomValue.birthdayYear)
+                    .validateItemsInForm("Subjects", randomValue.subject)
+                    .validateItemsInForm("Hobbies", randomValue.hobbies)
+                    .validateItemsInForm("Picture", picture )
+                    .validateItemsInForm("Address", randomValue.currentAddress)
+                    .validateItemsInForm("State and City", randomValue.state + " " + randomValue.city);
+
+        });
+
+
     }
 
 }
