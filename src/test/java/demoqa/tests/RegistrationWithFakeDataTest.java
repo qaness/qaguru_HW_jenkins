@@ -1,7 +1,9 @@
 package demoqa.tests;
 
+import com.codeborne.selenide.logevents.SelenideLogger;
 import demoqa.pages.RegistrationPage;
 import demoqa.utils.TestsRandomData;
+import io.qameta.allure.selenide.AllureSelenide;
 import org.junit.jupiter.api.Test;
 
 public class RegistrationWithFakeDataTest extends TestBase {
@@ -10,7 +12,9 @@ public class RegistrationWithFakeDataTest extends TestBase {
     TestsRandomData randomValue = new TestsRandomData();
 
     @Test
-    void successfulRegistrationTest() {
+    public void successfulRegistrationTest() {
+
+        SelenideLogger.addListener("allure", new AllureSelenide());
 
         String picture = "example.png";
 
