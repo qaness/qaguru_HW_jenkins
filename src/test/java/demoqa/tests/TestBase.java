@@ -17,12 +17,21 @@ public class TestBase {
 
     @BeforeAll
     static void beforeAll() {
-        Configuration.baseUrl = "https://demoqa.com";
-        Configuration.browserSize = "1920x1080";
+        String browser = System.getProperty("browser", "chrome");
+        String version = System.getProperty("version", "99.0");
+        String windowSize = System.getProperty("windowSize", "1920x1080");
+        String baseUrl = System.getProperty("baseUrl", "https://demoqa.com");
+        String remoteBrowser = System.getProperty("remoteBrowser", "https://user1:1234@selenoid.autotests.cloud/wd/hub");
+
+
+        Configuration.baseUrl = baseUrl;
+        Configuration.browser = browser;
+        Configuration.browserVersion = version;
+        Configuration.browserSize = windowSize;
         // Configuration.holdBrowserOpen = true;
         Configuration.pageLoadStrategy = "eager";
 
-        Configuration.remote = "https://user1:1234@selenoid.autotests.cloud/wd/hub";
+        Configuration.remote = remoteBrowser;
 
         DesiredCapabilities capabilities = new DesiredCapabilities();
         capabilities.setCapability("selenoid:options", Map.<String, Object>of(
@@ -48,4 +57,5 @@ public class TestBase {
         closeWebDriver();
     }
 
-}
+
+    }
